@@ -1,0 +1,81 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-9 col-md-10">
+        <h1 class="display-2 text-white">Hello {{ currentUser.username }}</h1>
+        <p class="text-white mt-0 mb-5">This is your profile page.</p>
+        <!--<a href="#!" class="btn btn-info">Edit profile</a>-->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="javascript:void(0)">
+                <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0 pt-md-4">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                <div>
+                  <li></li>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h3>
+              <strong>{{ currentUser.username }}</strong><span class="font-weight-light"> Profile</span>
+            </h3>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>
+              <strong>Email:</strong>
+              {{ currentUser.email }}
+            </div>
+            <div>
+              <i class="ni education_hat mr-2"></i>
+              <strong>Roles:</strong>
+              
+              <strong *ngFor="let role of currentUser.roles">
+                {{ role }}
+              </strong>
+              
+            </div>
+            <hr class="my-4" />
+            <p>
+              <strong>Token:</strong>
+              {{ currentUser.accessToken.substring(0, 20) }} ...
+              {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My account</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
