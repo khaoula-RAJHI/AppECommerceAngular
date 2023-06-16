@@ -3,7 +3,7 @@ FROM node:12.20-alpine AS build
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install 
-COPY ./app/
+COPY ./ /app/
 RUN node_modules/.bin/ng build --output-path=dist --prod=true
 
 
