@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { CategorieProduit } from '../categorie-produit/categorie-produit';
 import { CategorieProduitService } from '../categorie-produit/categorie-produit.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-produit',
@@ -14,6 +15,103 @@ import { CategorieProduitService } from '../categorie-produit/categorie-produit.
 })
 export class ProduitComponent implements OnInit {
 
+  produits: any;
+  public categories: CategorieProduit[] = [];
+  form: boolean = false;
+  produit!: Produit;
+  closeResult!: string;
+  idCategorieProduit: number;
+
+  constructor(private produitService: ProduitService,private categorieProduitService: CategorieProduitService, private modalService: NgbModal) {
+  }
+
+  ngOnInit(): void {
+    this.getAllProducts();
+    this.getCategorieProduits();
+
+    this.produit = {
+      idProduit: null,
+      codeProduit: null,
+      libelleProduit: null,
+      prix: null,
+      dateCreation: null,
+      categorie: null
+
+    }
+  }
+
+  getAllProducts() {
+    this.produitService.getProduits().subscribe(res => this.produits = res)
+  }
+
+  public getCategorieProduits(): void {
+    this.categorieProduitService.getCategorieProduits().subscribe(res => this.categories = res);
+  }
+
+  addProduct(produit: Produit) {
+    this.produitService.save(produit).subscribe(() => {
+      this.getAllProducts();
+      this.form = false;
+    });
+  }
+
+  editProduct(produit: Produit) {
+    this.produitService.modifyProduit(produit).subscribe();
+  }
+
+  deleteProduct(idProduit: any) {
+    this.produitService.deleteProduit(idProduit).subscribe(() => this.getAllProducts())
+  }
+
+  open(content: any, action: any) {
+    if (action != null)
+      this.produit = action
+    else
+      this.produit = new Produit();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  cancel() {
+    this.form = false;
+  }
+
+  
+  addAndAssignProduitToCategorie(produit: Produit, idCategorieProduit: number) {
+    return this.produitService.addprcat(produit, idCategorieProduit).subscribe(() => this.getAllProducts());
+  }
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+  /*
+ 
   public produits: Produit[] = [];
   public categories: CategorieProduit[] = [];
   public editProduit?: Produit;
@@ -110,6 +208,5 @@ export class ProduitComponent implements OnInit {
     container?.appendChild(button);
     button.click();
   }
-
-
+*/
 }

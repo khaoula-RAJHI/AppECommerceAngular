@@ -4,6 +4,7 @@ import { CategorieProduitService } from './categorie-produit.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-categorie-produit',
@@ -12,32 +13,68 @@ import { NgForm } from '@angular/forms';
 })
 export class CategorieProduitComponent implements OnInit {
 
-  public categories: CategorieProduit[] = [];
-  public editCategorieProduit?: CategorieProduit;
-  public deleteCategorieProduit?: CategorieProduit;
+  categories: any;
+  form: boolean = false;
+  categorie!: CategorieProduit;
+  closeResult!: string;
 
-  constructor(private categorieProduitService: CategorieProduitService, private route: Router) {
+  constructor(private categorieProduitService: CategorieProduitService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
-    this.getCategorieProduits();
+    this.getAllCategorieProduits();
   }
 
-  public getCategorieProduits(): void {
-    this.categorieProduitService.getCategorieProduits().subscribe(
-      (response: CategorieProduit[]) => {
-        this.categories = response;
-        console.log(this.categories);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-        alert(error.message);
-        alert("you are not allowed");
-        this.route.navigateByUrl('/home');
-      }
-    );
+  public getAllCategorieProduits(): void {
+    this.categorieProduitService.getCategorieProduits().subscribe(res => this.categories = res);
+  }
+  addCategorie(categorie: CategorieProduit) {
+    this.categorieProduitService.save(categorie).subscribe(() => {
+      this.getAllCategorieProduits();
+      this.form = false;
+    });
   }
 
+  editCategorie(categorie: CategorieProduit) {
+    this.categorieProduitService.modifyCategorieProduit(categorie).subscribe();
+  }
+
+  deleteCategorie(idCategorieProduit: any) {
+    this.categorieProduitService.deleteCategorieProduit(idCategorieProduit).subscribe(() => this.getAllCategorieProduits())
+  }
+
+  open(content: any, action: any) {
+    if (action != null)
+      this.categorie = action
+    else
+      this.categorie = new CategorieProduit();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  cancel() {
+    this.form = false;
+  }
+
+
+
+
+
+
+/*
   public onAddCategorieProduit(addForm: NgForm): void {
     document.getElementById('add-CategorieProduit-form')!.click();
     this.categorieProduitService.save(addForm.value).subscribe(
@@ -89,7 +126,7 @@ export class CategorieProduitComponent implements OnInit {
     container?.appendChild(button);
     button.click();
   }
-
+*/
 
 
 }

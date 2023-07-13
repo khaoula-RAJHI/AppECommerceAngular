@@ -36,8 +36,8 @@ export class ProduitService {
   }
 
 
-  public addprcat(produit: Produit, idCategorie: number) {
-    return this.http.post<Produit>(`${this.produitUrl+"/addAndAssignProduitToCategorie"}/${idCategorie}`,produit);
+  public addprcat(produit: Produit, idCategorieProduit: number) {
+    return this.http.post<Produit>(`${this.produitUrl+"/addAndAssignProduitToCategorie"}/${idCategorieProduit}`,produit);
   }
 
 
