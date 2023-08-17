@@ -25,7 +25,9 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: Compile SCSS to CSS
-        run: ng build --prod
+        run: |
+         npm cache clean --force
+         ng build --prod
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
