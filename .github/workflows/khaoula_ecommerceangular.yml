@@ -27,6 +27,7 @@ jobs:
       - name: Compile SCSS to CSS
         run: |
          npm cache clean --force
+         npm install --force
          ng build --prod
 
       - name: Upload artifact for deployment job
