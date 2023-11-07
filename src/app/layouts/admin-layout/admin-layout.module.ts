@@ -14,6 +14,8 @@ import { ProduitComponent } from 'src/app/pages/produit/produit.component';
 import { CategorieProduitComponent } from 'src/app/pages/categorie-produit/categorie-produit.component';
 import { authInterceptorProviders } from 'src/app/_helpers/auth.interceptor';
 import { AdminLayoutComponent } from './admin-layout.component';
+import { ProduitClientComponent } from 'src/app/pages/produitClient/produitClient.component';
+import { UserComponent } from 'src/app/pages/User/user.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -31,7 +33,9 @@ import { AdminLayoutComponent } from './admin-layout.component';
   declarations: [
     DashboardComponent,
     UserProfileComponent,
+    UserComponent,
     ProduitComponent,
+    ProduitClientComponent,
     CategorieProduitComponent
   ],
   providers: [authInterceptorProviders]

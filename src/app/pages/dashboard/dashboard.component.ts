@@ -8,6 +8,12 @@ import {
   chartExample1,
   chartExample2
 } from "../../variables/charts";
+import { User } from './user';
+import { UserService } from './user.service';
+import { Produit } from '../produit/produit';
+import { CategorieProduit } from '../categorie-produit/categorie-produit';
+import { ProduitService } from '../produit/produit.service';
+import { CategorieProduitService } from '../categorie-produit/categorie-produit.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +28,40 @@ export class DashboardComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
+  users: any;
+  produits: any;
+  categories: any;
+  form: boolean = false;
+  user!: User;
+  produit!: Produit;
+  categorie!: CategorieProduit;
+
+  constructor(private userService: UserService, private produitService: ProduitService,private categorieProduitService: CategorieProduitService) {
+  }
+
   ngOnInit() {
+
+    this.getAllUsers();
+    this.user = {
+      idUser: null,
+      email: null,
+      password: null,
+      username: null,
+
+    }
+
+    this.getAllProducts();
+    this.getAllCategorieProduits();
+
+    this.produit = {
+      idProduit: null,
+      codeProduit: null,
+      libelleProduit: null,
+      prix: null,
+      dateCreation: null,
+      categorie: null
+
+    }
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
@@ -49,6 +88,19 @@ export class DashboardComponent implements OnInit {
 			options: chartExample1.options,
 			data: chartExample1.data
 		});
+  }
+
+
+  getAllUsers() {
+    this.userService.getUsers().subscribe(res => this.users = res)
+  }
+
+  getAllProducts() {
+    this.produitService.getProduits().subscribe(res => this.produits = res)
+  }
+
+  public getAllCategorieProduits(): void {
+    this.categorieProduitService.getCategorieProduits().subscribe(res => this.categories = res);
   }
 
 

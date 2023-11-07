@@ -28,6 +28,7 @@ export class AuthLayoutComponent implements OnInit {
         this.showAdminBoard = this.roles.includes('ADMIN');
   
         this.username = user.username;
+  
       }
       var html = document.getElementsByTagName("html")[0];
       html.classList.add("auth-layout");
