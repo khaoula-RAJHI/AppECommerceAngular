@@ -1,143 +1,101 @@
+// user.component.ts
+
 import { Component, OnInit } from "@angular/core";
 import { User } from "./user";
 import { UserService } from "./user.service";
+//import { Role } from "./role";
 
+export interface Role {
+  idRole: number;
+  name: string;
+}
 @Component({
     selector: 'app-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
-  })
-  export class UserComponent implements OnInit {
-users: any;
-form: boolean = false;
-user!: User;
-userId: number;
-roleId: number;
-selectedUserId: number; // Initialisez avec l'ID de l'utilisateur sélectionné
-selectedRoleId: number; // Initialisez avec l'ID du rôle sélectionné
-roles: any; // Initialisez avec les rôles récupérés du backend
+})
+export class UserComponent implements OnInit {
+    users: any;
+    form: boolean = false;
+    user!: User;
+    userId: number;
+    roleId: number;
+    selectedUserId: number;
+    selectedRoleId: number;
+    selectedRole:  Role | null = null;
+    public roles: Role[] = [];
 
+    constructor(private userService: UserService) {}
 
-constructor(private userService: UserService) {
-}
+    ngOnInit() {
+        this.getAllUsers();
+        this.getAllRoles();
+        this.loadUsers();
+        this.user = {
+          idUser: null,
+          email: null,
+          password: null,
+          username: null,
+          roles: null,
+      
+        }
+        this.selectedRole = null;
+    }
 
-ngOnInit() {
+    getAllUsers() {
+        this.userService.getUsers().subscribe(res => this.users = res);
+    }
 
-  this.getAllUsers();
-  this.user = {
-    idUser: null,
-    email: null,
-    password: null,
-    username: null,
-    roles: null,
-
-  }
-/*
-  this.userService.displayRoles()
-      .subscribe(
-        data => {
-          //console.log(data); // Manipulez les données reçues ici
-          this.roles = data; // Assigner les données récupérées à la variable des rôles
-          console.log(this.roles); 
+    public getAllRoles(): void {
+      this.userService.displayRoles().subscribe(
+        roles => {
+          this.roles = roles;
         },
         error => {
-          console.log(error);
-        });
+          console.log('Erreur lors de la récupération des rôles', error);
+        }
+      );
+    }
     
-  this.loadUsersWithRoles();*/
 
-  this.loadUsers();
-  this.loadRoles();
-}
+    deleteUser(idUser: any) {
+        this.userService.deleteUser(idUser).subscribe(() => this.getAllUsers());
+    }
 
-getAllUsers() {
-    this.userService.getUsers().subscribe(res => this.users = res)
-  }
+    loadUsers() {
+        this.userService.getUsers().subscribe((data: User[]) => {
+            this.users = data;
+        });
+    }
 
-deleteUser(idUser: any) {
-    this.userService.deleteUser(idUser).subscribe(() => this.getAllUsers())
-  }
-/*
-  updateUserRole(userId: number, roleId: number) {
-    this.userService.updateUserRole(userId, roleId)
-      .subscribe(
-        data => {
-          console.log("Rôle de l'utilisateur mis à jour avec succès", data);
-          // Ajoutez ici une logique supplémentaire si nécessaire après la mise à jour du rôle
-        },
-        error => {
-          console.log("Erreur lors de la mise à jour du rôle de l'utilisateur", error);
-          // Gérez l'erreur ici
-        }
-      );
-  }*/
-/*
-  updateUserRole() {
-    this.userService.updateUserRole(this.userId, this.roleId)
-      .subscribe(
-        data => {
-          console.log("Rôle de l'utilisateur mis à jour avec succès", data);
-          // Ajoutez ici une logique supplémentaire si nécessaire après la mise à jour du rôle
-        },
-        error => {
-          console.log("Erreur lors de la mise à jour du rôle de l'utilisateur", error);
-          // Gérez l'erreur ici
-        }
-      );
-  }*/
-/*
-  loadUsersWithRoles() {
-    this.userService.displayRoles().subscribe(
-      (data: any) => {
-        this.users = data;
-      },
-      (error) => {
-        console.error('Une erreur s\'est produite lors du chargement des utilisateurs avec les rôles', error);
-      }
-    );
-  }
+    updateUserRole() {
+  console.log('Selected RoleId:', this.selectedRoleId);
 
-  updateUserRole() {
+  if (this.selectedRoleId !== null && this.selectedRoleId !== undefined) {
     this.userService.updateUserRole(this.selectedUserId, this.selectedRoleId)
       .subscribe(
         data => {
-          console.log("Rôle de l'utilisateur mis à jour avec succès", data);
+          console.log('Mise à jour du rôle de l\'utilisateur réussie.', data);
+          this.getAllUsers();
           // Ajoutez ici une logique supplémentaire si nécessaire après la mise à jour du rôle
         },
         error => {
-          console.log("Erreur lors de la mise à jour du rôle de l'utilisateur", error);
-          // Gérez l'erreur ici
+          if (error.status !== 200) {
+            console.log('Erreur lors de la mise à jour du rôle de l\'utilisateur', error);
+            // Gérez l'erreur ici uniquement si le statut n'est pas 200
+          } else {
+            console.log('Mise à jour du rôle de l\'utilisateur réussie.', error);
+            this.getAllUsers(); 
+            // Effectuez des actions réussies si nécessaire
+          }
         }
       );
+  } else {
+    console.log('La sélection du rôle n\'est pas valide.');
+    // Gérez le cas où la sélection du rôle n'est pas valide
   }
-*/
-
-
-loadUsers() {
-  this.userService.getUsers().subscribe((data: User[]) => {
-    this.users = data;
-  });
 }
 
-loadRoles() {
-  this.userService.displayRoles().subscribe((data: User[]) => {
-    this.roles = data.map((user) => user.roles); // Assurez-vous que la propriété 'roles' contient les noms des rôles
-  });
-}
+    
+    }
 
-updateUserRole() {
-  this.userService
-    .updateUserRole(this.selectedUserId, this.selectedRoleId)
-    .subscribe(
-      (data) => {
-        console.log('Rôle de l\'utilisateur mis à jour avec succès', data);
-        // Ajoutez ici une logique supplémentaire si nécessaire après la mise à jour du rôle
-      },
-      (error) => {
-        console.log('Erreur lors de la mise à jour du rôle de l\'utilisateur', error);
-        // Gérez l'erreur ici
-      }
-    );
-}
-
-}

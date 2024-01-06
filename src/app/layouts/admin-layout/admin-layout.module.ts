@@ -16,6 +16,7 @@ import { authInterceptorProviders } from 'src/app/_helpers/auth.interceptor';
 import { AdminLayoutComponent } from './admin-layout.component';
 import { ProduitClientComponent } from 'src/app/pages/produitClient/produitClient.component';
 import { UserComponent } from 'src/app/pages/User/user.component';
+import { CommandeComponent } from 'src/app/pages/commande/commande.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -36,7 +37,8 @@ import { UserComponent } from 'src/app/pages/User/user.component';
     UserComponent,
     ProduitComponent,
     ProduitClientComponent,
-    CategorieProduitComponent
+    CategorieProduitComponent,
+    CommandeComponent
   ],
   providers: [authInterceptorProviders]
 })

@@ -1,0 +1,39 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="row">
+    <div class="col-md-11" style="margin-left: 20px">
+      <br><br>
+      <h3 style="margin-top: 20px">Liste des commandes </h3>
+      <hr>
+      <button class="btn btn-round btn-sm btn-success" (click)="open(mymodal1, null)">AJOUTER UNE NOUVELLE COMMANDE</button>
+      <br><br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID Commande</th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Utilisateur</th>
+            <th scope="col">Produits</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let commande of commandes">
+            <td>{{ commande.idCommande }}</td>
+            <td>{{ commande.quantite }}</td>
+            <td>{{ commande.users.name }}</td>
+            <td>
+              <span *ngFor="let produit of commande.product">{{ produit.libelleProduit }}, </span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-outline-danger" (click)="deleteCommande(commande.idCommande)">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <ng-template #mymodal1 let-modal1>
+    <!-- Your modal content remains the same -->
+  </ng-template>
+  

@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/internal/Observable";
 import { User } from "./user";
+import { Role } from "./user.component";
 
 @Injectable({
     providedIn: 'root'
@@ -22,15 +23,22 @@ import { User } from "./user";
       return this.http.delete<void>(`${this.usertUrl+"/remove-user"}/${idUser}`);
     }
 
-    public displayRoles(): Observable<User[]> {
-      return this.http.get<User[]>(this.usertUrl+"/displayRoles");
+    public displayUsersWithRoles(): Observable<User[]> {
+      return this.http.get<User[]>(this.usertUrl+"/displayUsersRoles");
+    }
+
+    public displayRoles(): Observable<Role[]> {
+      return this.http.get<Role[]>(this.usertUrl + "/displayRoles");
     }
 
     /*updateUserRole(userId: number, roleId: number): Observable<any> {
       return this.http.put(`${this.usertUrl}/updateUserRole/${userId}`, roleId);
     }*/
 
+    
     updateUserRole(userId: number, roleId: number): Observable<any> {
-      return this.http.put(`${this.usertUrl}/${userId}/roles/${roleId}`, null);
+      return this.http.put(`${this.usertUrl}/${userId}/roles/${roleId}`, {});
     }
+    
+    
 }

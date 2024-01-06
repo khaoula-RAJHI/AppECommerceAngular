@@ -7,6 +7,7 @@ import { CategorieProduitComponent } from 'src/app/pages/categorie-produit/categ
 import { NgModule } from '@angular/core';
 import { ProduitClientComponent } from 'src/app/pages/produitClient/produitClient.component';
 import { UserComponent } from 'src/app/pages/User/user.component';
+import { CommandeComponent } from 'src/app/pages/commande/commande.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -14,7 +15,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user',   component: UserComponent },
     { path: 'produit',         component: ProduitComponent },
     { path: 'produitClient',         component: ProduitClientComponent },
-    { path: 'categorie',         component: CategorieProduitComponent }
+    { path: 'categorie',         component: CategorieProduitComponent },
+    { path: 'commande',         component: CommandeComponent }
+
 ];
 
 @NgModule({

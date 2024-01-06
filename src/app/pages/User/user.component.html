@@ -1,3 +1,4 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 <div class="row">
     <div class="col-md-11" style="margin-left: 20px">
       <br><br>
@@ -27,7 +28,7 @@
     </tbody>
   </table>
 
-
+<!--
   <div *ngIf="users && users.length > 0">
     <h2>Liste des utilisateurs avec leurs rôles :</h2>
     <ul *ngFor="let user of users">
@@ -40,15 +41,15 @@
       </li>
     </ul>
   </div>
-
+-->
 
   
-
+<!--
   <div *ngIf="users">
     <h2>Liste des utilisateurs avec leurs rôles :</h2>
     <ul>
       <li *ngFor="let user of users">
-        {{ user.username }} - {{ user.roles }} <!-- Assurez-vous que 'roles' contient les noms des rôles -->
+        {{ user.username }} - {{ user.roles }} 
       </li>
     </ul>
   </div>
@@ -63,11 +64,56 @@
   <div>
     <label for="selectedRoleId">Sélectionnez un rôle :</label>
     <select id="selectedRoleId" [(ngModel)]="selectedRoleId" name="selectedRoleId">
-      <option *ngFor="let role of user.roles" [value]="roles">{{ role.name  }}</option> <!-- Utilisez la liste des rôles ici -->
+      <option *ngFor="let role of user.roles" [value]="roles">{{ role.name  }}</option> 
     </select>
   </div>
   
   <button (click)="updateUserRole()">Modifier le rôle de l'utilisateur</button>
+  -->
+
+<br>
+<br>
+<br>
+<br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div *ngIf="users">
+          <h3>Liste des utilisateurs avec leurs rôles </h3>
+          <ul>
+            <li *ngFor="let user of users">
+              {{ user.username }} - 
+              <span *ngFor="let role of user.roles">{{ role.name }}, </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="col-md-6">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="selectedUserId">Sélectionnez un utilisateur :</label>
+            <div class="input-group">
+              <select id="selectedUserId" [(ngModel)]="selectedUserId" name="selectedUserId" class="form-control">
+                <option *ngFor="let user of users" [value]="user.idUser">{{ user.username }}</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="selectedRoleId">Sélectionnez un rôle :</label>
+            <div class="input-group">
+              <select name="selectedRoleId" id="roles" [(ngModel)]="selectedRoleId" name="selectedRoleId" class="form-control">
+                <option *ngFor='let role of roles' [value]="role.idRole">{{ role.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <button type="button" class="btn btn-outline-primary" (click)="updateUserRole()">Editer le rôle de l'utilisateur</button>
+      </div>
+    </div>
+  </div>
   
 
 
