@@ -4,9 +4,14 @@ import { Produit } from './produit';
 import { ProduitService } from './produit.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { CategorieProduit } from '../categorie-produit/categorie-produit';
 import { CategorieProduitService } from '../categorie-produit/categorie-produit.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+export interface CategorieProduit {
+  idCategorieProduit : number;
+  codeCategorie : string;
+  libelleCategorie : string;
+}
 
 @Component({
   selector: 'app-produit',
@@ -28,6 +33,7 @@ export class ProduitComponent implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
     this.getCategorieProduits();
+    this.loadProducts();
 
     this.produit = {
       idProduit: null,
@@ -35,9 +41,10 @@ export class ProduitComponent implements OnInit {
       libelleProduit: null,
       prix: null,
       dateCreation: null,
-      categorie: null
+      categorieProduit: null
 
     }
+    
   }
 
   getAllProducts() {
@@ -47,6 +54,13 @@ export class ProduitComponent implements OnInit {
   public getCategorieProduits(): void {
     this.categorieProduitService.getCategorieProduits().subscribe(res => this.categories = res);
   }
+
+  loadProducts() {
+    this.produitService.getProduits().subscribe(//(data: Produit[]) => {this.produits = data;
+    res => { this.produits = res;
+        console.log('Produits:', this.produits);
+    });
+}
 
   addProduct(produit: Produit) {
     this.produitService.save(produit).subscribe(() => {
@@ -93,6 +107,10 @@ export class ProduitComponent implements OnInit {
   addAndAssignProduitToCategorie(produit: Produit, idCategorieProduit: number) {
     return this.produitService.addprcat(produit, idCategorieProduit).subscribe(() => this.getAllProducts());
   }
+  
+
+
+  
   
   
   

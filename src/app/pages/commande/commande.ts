@@ -1,8 +1,12 @@
+import { User } from "../User/user";
+import { Produit } from "./commande.component";
+
 export class Commande {
     idCommande: number;
     quantite: number;
-    users: any; // Update with the correct type for the user
-    product: any[]; // Update with the correct type for the product
+    user: User[]; 
+    produits: Produit[]; 
+    
       
       
 }

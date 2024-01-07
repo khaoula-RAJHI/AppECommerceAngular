@@ -13,7 +13,7 @@
         <th scope="col">Libelle Produit </th>
         <th scope="col">Prix</th>
         <th scope="col">Date Creation Produit</th>
-        <th scope="col">Categorie Produit</th>
+        <th scope="col">Categorie Produit</th>      
         <th scope="col"></th>
       </tr>
       </thead>
@@ -23,7 +23,9 @@
         <td>{{p.libelleProduit}}</td>
         <td>{{p.prix}}</td>
         <td>{{p.dateCreation}}</td>
-        <td><option *ngFor='let categorie of categories'>{{categorie?.libelleCategorie}}</option></td>
+        <td>
+          <span *ngFor='let categorie of categories'>{{ categorie?.libelleCategorie }}</span>
+        </td>  
         <td>
           <button type="button" class="btn btn-outline-primary"
                   (click)="open(mymodal1,p)">Editer
@@ -77,9 +79,16 @@
       <div class="mb-3">
         <label for="categorie">Categorie de produit</label>
         <div class="input-group">
+          <!--<select name="categorie" id="categorie" [(ngModel)]="produit.categorie" class="form-control">
+            <option *ngFor='let categorie of categories' [Value]="categorie">{{categorie?.libelleCategorie}}</option>
+          </select>-->
           <select name="categorie" id="categorie" [(ngModel)]="produit.categorie" class="form-control">
-            <option *ngFor='let categorie of categories' [value]="categorie">{{categorie?.libelleCategorie}}</option>
-        </select></div>
+            <option *ngFor='let categorie of categories' [ngValue]="categorie.id" [selected]="categorie.id === produit.categorie">
+              {{categorie.libelleCategorie}}
+            </option>
+          </select>
+      </div>
+
       </div>
       
     </form>

@@ -2,28 +2,43 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Commande } from './commande';
+import { User } from '../User/user';
+import { Produit } from './commande.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandeService {
-  private apiUrl = 'http://localhost:8080/commande'; // Update with your API endpoint
+  private cmdUrl = 'http://localhost:8081/commande'; 
 
   constructor(private http: HttpClient) { }
 
   getAllCommandes(): Observable<Commande[]> {
-    return this.http.get<Commande[]>(`${this.apiUrl}/retrieve-all-commandes`);
+    return this.http.get<Commande[]>(`${this.cmdUrl}/retrieve-all-commandes`);
   }
 
   saveCommande(commande: Commande): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/commandes`, commande);
+    return this.http.post<void>(`${this.cmdUrl}/commandes`, commande);
   }
 
   calculerMontantCommande(commandeId: number): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/commandes/${commandeId}/montant`);
+    return this.http.get<number>(`${this.cmdUrl}/commandes/${commandeId}/montant`);
   }
 
   removeCommande(commandeId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/remove-commande/${commandeId}`);
+    return this.http.delete<void>(`${this.cmdUrl}/remove-commande/${commandeId}`);
   }
+
+  public displayProducts(): Observable<Produit[]> {
+    return this.http.get<Produit[]>(this.cmdUrl + "/displayProducts");
+  }
+
+  public displayUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.cmdUrl + "/displayUsers");
+  }
+
+  addcmd(cmdId: number, productId: number): Observable<any> {
+    return this.http.post(`${this.cmdUrl}/${cmdId}/products/${productId}`, {});
+  }
+  
 }

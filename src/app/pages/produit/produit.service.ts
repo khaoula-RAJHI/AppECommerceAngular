@@ -39,10 +39,15 @@ export class ProduitService {
   public addprcat(produit: Produit, idCategorieProduit: number) {
     return this.http.post<Produit>(`${this.produitUrl+"/addAndAssignProduitToCategorie"}/${idCategorieProduit}`,produit);
   }
+  
 
 
 public getCategorieProduits(): Observable<CategorieProduit[]> {
   return this.http.get<CategorieProduit[]>(this.categorieProduitUrl+"/retrieve-all-categorieProduit");
+}
+
+public displayCategories(): Observable<CategorieProduit[]> {
+  return this.http.get<CategorieProduit[]>(this.produitUrl + "/displayCategories");
 }
 
 uploadFile(file: File): Observable<HttpEvent<{}>> {

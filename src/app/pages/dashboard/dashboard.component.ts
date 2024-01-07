@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
       libelleProduit: null,
       prix: null,
       dateCreation: null,
-      categorie: null
+      categorieProduit: null
 
     }
 

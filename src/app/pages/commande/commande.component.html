@@ -6,26 +6,26 @@
       <hr>
       <button class="btn btn-round btn-sm btn-success" (click)="open(mymodal1, null)">AJOUTER UNE NOUVELLE COMMANDE</button>
       <br><br>
-      <table class="table table-hover">
-        <thead>
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
           <tr>
             <th scope="col">ID Commande</th>
             <th scope="col">Quantité</th>
+            <th scope="col">Produit</th>
             <th scope="col">Utilisateur</th>
-            <th scope="col">Produits</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let commande of commandes">
-            <td>{{ commande.idCommande }}</td>
-            <td>{{ commande.quantite }}</td>
-            <td>{{ commande.users.name }}</td>
+          <tr *ngFor="let c of commandes">
+            <td>{{ c.idCommande }}</td>
+            <td>{{ c.quantite }}</td>
             <td>
-              <span *ngFor="let produit of commande.product">{{ produit.libelleProduit }}, </span>
+                <span *ngFor="let produit of produits">{{ produit.libelleProduit }}</span>
             </td>
+            <td></td>
             <td>
-              <button type="button" class="btn btn-outline-danger" (click)="deleteCommande(commande.idCommande)">Supprimer</button>
+              <button type="button" class="btn btn-outline-danger" (click)="deleteCommande(c.idCommande)">Supprimer</button>
             </td>
           </tr>
         </tbody>
@@ -34,6 +34,50 @@
   </div>
   
   <ng-template #mymodal1 let-modal1>
-    <!-- Your modal content remains the same -->
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Fiche Commande</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal1.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+      <strong>{{ currentUser.username }}</strong>
+      </div>
+      <br>
+      <form>
+        <div class="mb-3">
+          <label for="quantite">Quantite Produit</label>
+          <div class="input-group">
+            <input id="quantite" class="form-control" type="text" placeholder="Quantite Produit"
+                   [(ngModel)]="commande.quantite"
+                   [ngModelOptions]="{standalone : true}"></div>
+        
+        </div>
+        <!--
+        <div class="mb-3">
+          <label for="selectedUserId">Utilisateurs</label>
+          <div class="input-group">
+            <select name="selectedUserId" id="users" [(ngModel)]="selectedUserId" class="form-control">
+              <option *ngFor='let user of users' [value]="user.idUser">{{ user.username }}</option>
+            </select>
+          </div>
+        </div>
+        -->
+        <div class="mb-3">
+          <label for="selectedProductId">Produits</label>
+          <div class="input-group">
+            <select name="selectedProductId" id="produits" [(ngModel)]="selectedProductId" class="form-control" >
+              <option *ngFor='let product of produits' [value]="product.idProduit">{{ product.libelleProduit }}</option>
+            </select>
+          </div>
+        </div>
+                
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="addCommande(commande)"
+              (click)="modal1.close('Save click')">Ajouter
+      </button>
+      <button type="button" class="btn btn-danger" (click)="modal1.close('Save click')">Fermer</button>
+    </div>
   </ng-template>
   
