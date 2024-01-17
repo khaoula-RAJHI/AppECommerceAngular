@@ -64,3 +64,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4476875C41A9418D9FA2D7E6E90A25C7 }}
           package: .
+          is-linux-webapp: false
