@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Produit } from './produitClient';
 import { Observable } from 'rxjs';
 import { CategorieProduit } from '../categorie-produit/categorie-produit';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
