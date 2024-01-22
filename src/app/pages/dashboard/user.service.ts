@@ -8,10 +8,11 @@ import { User } from "./user";
   })
   export class UserService {
   
-    private usertUrl: string;
+    //private usertUrl: string;
+     private usertUrl= environment.apiServerUrl + '/user';
   
     constructor(private http: HttpClient) { 
-      this.usertUrl = 'http://localhost:8081/user';
+      //this.usertUrl = 'http://localhost:8081/user';
     }
     
     public getUsers(): Observable<User[]> {
