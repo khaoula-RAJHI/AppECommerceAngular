@@ -7,10 +7,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CategorieProduitService { 
-  private categorieProduitUrl: string;
+  //private categorieProduitUrl: string;
+  private categorieProduitUrl= environment.apiServerUrl + '/categorieProduit';
 
   constructor(private http: HttpClient) { 
-    this.categorieProduitUrl = 'http://localhost:8081/categorieProduit';
+    //this.categorieProduitUrl = 'http://localhost:8081/categorieProduit';
   }
   
   public getCategorieProduits(): Observable<CategorieProduit[]> {
