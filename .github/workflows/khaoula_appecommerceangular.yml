@@ -30,8 +30,11 @@ jobs:
       - name: Remove node_modules folder
         run: rm -rf node_modules
 
-      - name: Install npm dependencies
-        run: npm install
+      - name: Examine dependencies and versions
+        run: npm ls
+
+      - name: Force resolution of dependencies
+        run: npm install --force
 
       - name: Update npm to version 10.3.0
         run: npm install -g npm@10.3.0
