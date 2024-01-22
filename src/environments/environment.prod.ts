@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'appecommercespring.azurewebsites.net',
+  apiServerUrl: 'https://appecommercespring.azurewebsites.net',
 };
