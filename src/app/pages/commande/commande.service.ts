@@ -9,7 +9,8 @@ import { Produit } from './commande.component';
   providedIn: 'root'
 })
 export class CommandeService {
-  private cmdUrl = 'http://localhost:8081/commande'; 
+  //private cmdUrl = 'http://localhost:8081/commande'; 
+  private cmdUrl= environment.apiServerUrl + '/commande';
 
   constructor(private http: HttpClient) { }
 
