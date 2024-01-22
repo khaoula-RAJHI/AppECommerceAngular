@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private AUTH_API = environment.apiServerUrl + '/authentification/';
+  private AUTH_API = environment.apiServerUrl + '/authentification';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
