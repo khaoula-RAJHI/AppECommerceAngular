@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081',
-  apiServerUrl: 'https://appecommercespring.azurewebsites.net',
+  //apiUrl: 'http://localhost:8081',
+  apiServerUrl: 'http://localhost:8081',
+  //apiServerUrl: 'https://appecommercespring.azurewebsites.net',
 };
 
 /*
