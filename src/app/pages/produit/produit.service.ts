@@ -9,12 +9,14 @@ import { CategorieProduit } from '../categorie-produit/categorie-produit';
 })
 export class ProduitService {
 
-  private produitUrl: string;
-  private categorieProduitUrl: string;
+  /private produitUrl: string;
+  //private categorieProduitUrl: string;
+  private produitUrl= environment.apiServerUrl + '/produit';
+  private categorieProduitUrl= environment.apiServerUrl + '/categorieProduit';
 
   constructor(private http: HttpClient) { 
-    this.produitUrl = 'http://localhost:8081/produit';
-    this.categorieProduitUrl = 'http://localhost:8081/categorieProduit';
+    //this.produitUrl = 'http://localhost:8081/produit';
+    //this.categorieProduitUrl = 'http://localhost:8081/categorieProduit';
   }
   
   public getProduits(): Observable<Produit[]> {
