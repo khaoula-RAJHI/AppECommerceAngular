@@ -37,19 +37,15 @@ jobs:
       - name: Update npm to compatible version
         run: npm install -g npm@10.3.0
 
-      - name: Verify Angular CLI files
-        run: |
-          if [ ! -f "node_modules/.bin/ng" ] || [ "$(ng version --json | jq -r '.cli.version')" != "14.2.11" ]; then
-            npm install -g @angular/cli@14.2.11
-          fi
-
       - name: Examine dependencies and versions
         run: npm ls
 
       - name: Test application locally
         run: |
           ng build --configuration=production
-          # Ajoutez d'autres commandes de test au besoin
+
+      - name: Version
+        run: ng version
           
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
