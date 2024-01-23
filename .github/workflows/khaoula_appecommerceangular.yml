@@ -28,16 +28,14 @@ jobs:
           npm install --force
 
       - name: Examine dependencies and versions
-        run: |
-          npm ls || true
-
+        run: npm ls || true
 
       - name: Install missing dependencies
         run: |
           npm install --force 
 
-      - name: Update npm to version 10.3.0
-        run: npm install -g npm@10.3.0
+      - name: Update npm to compatible version
+        run: npm install -g npm@7.24.0
 
       - name: Verify Angular CLI files
         run: |
@@ -51,7 +49,7 @@ jobs:
       - name: Test application locally
         run: |
           ng build --configuration=production
-          # Add any other testing commands
+          # Ajoutez d'autres commandes de test au besoin
           
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -77,14 +75,14 @@ jobs:
 
       - name: Build and push Docker
         run: |
-         docker build --tag=angularproject:latest .
-         docker tag angularproject khaoularajhi/angularproject
-         docker push khaoularajhi/angularproject
+          docker build --tag=angularproject:latest .
+          docker tag angularproject khaoularajhi/angularproject
+          docker push khaoularajhi/angularproject
 
       - name: Push ACR
         run: |
-         docker tag angularproject registrapp.azurecr.io/angularproject:latest
-         docker push registrapp.azurecr.io/angularproject:latest
+          docker tag angularproject registrapp.azurecr.io/angularproject:latest
+          docker push registrapp.azurecr.io/angularproject:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -110,4 +108,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4476875C41A9418D9FA2D7E6E90A25C7 }}
           package: .
-
