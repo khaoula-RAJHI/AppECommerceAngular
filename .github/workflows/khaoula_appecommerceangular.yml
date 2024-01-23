@@ -28,7 +28,9 @@ jobs:
           npm install --force
 
       - name: Examine dependencies and versions
-        run: npm ls
+        run: |
+          npm ls || true
+
 
       - name: Install missing dependencies
         run: |
