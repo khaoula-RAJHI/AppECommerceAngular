@@ -35,7 +35,7 @@ jobs:
           npm install --force 
 
       - name: Update npm to compatible version
-        run: npm install -g npm@7.24.0
+        run: npm install -g npm@10.3.0
 
       - name: Verify Angular CLI files
         run: |
