@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { Commande } from './commande';
 import { User } from '../User/user';
 import { Produit } from './commande.component';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandeService {
-  private cmdUrl = 'http://localhost:8081/commande'; 
+  //private cmdUrl = 'http://localhost:8081/commande'; 
+  private cmdUrl = environment.apiUrl + '/commande';
 
   constructor(private http: HttpClient) { }
 
