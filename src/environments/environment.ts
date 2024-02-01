@@ -4,11 +4,8 @@
 
 export const environment = {
   production: false,
-<<<<<<< Updated upstream
-  apiUrl: 'https://appecommercespring.azurewebsites.net/'
-=======
   apiUrl: 'https://appecommercespring.azurewebsites.net'
->>>>>>> Stashed changes
+
 };
 
 /*
