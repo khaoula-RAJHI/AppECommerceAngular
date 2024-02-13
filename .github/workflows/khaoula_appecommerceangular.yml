@@ -61,5 +61,5 @@ jobs:
         with:
           app-name: 'AppEcommerceAngular'
           slot-name: 'Production'
-          package: ./site/wwwroot/argon-dashboard-angular
+          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_804BE8642F274871BB63A5DB00794C24 }}
