@@ -65,8 +65,4 @@ jobs:
           remove-run-from-package: true
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_804BE8642F274871BB63A5DB00794C24 }}
           
-      - name: Start Angular app
-        run: |
-          cd /home/site/wwwroot/release.zip
-          npm install
-          npm start
+      
