@@ -30,11 +30,14 @@ jobs:
           npm run build --if-present
           ng version
 
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: '${{ github.workspace }}/dist/*'
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,6 +51,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -55,6 +61,6 @@ jobs:
         with:
           app-name: 'AppEcommerceAngular'
           slot-name: 'Production'
+          package: ./wwwroot/dist/
           remove-run-from-package: true
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_804BE8642F274871BB63A5DB00794C24 }}
-          package: './dist/'
