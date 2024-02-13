@@ -67,6 +67,6 @@ jobs:
           
       - name: Start Angular app
         run: |
-          cd /home/site/wwwroot
+          cd /home/site/wwwroot/release.zip
           npm install
           npm start
