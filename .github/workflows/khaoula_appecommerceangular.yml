@@ -27,7 +27,7 @@ jobs:
           npm cache clean --force
           npm install --force
           npm list bootstrap
-          ng build --production
+          ng build --configuration=production
           ng version
 
       - name: Change permissions recursively in source code
