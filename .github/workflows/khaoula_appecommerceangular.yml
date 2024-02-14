@@ -29,18 +29,23 @@ jobs:
           npm list bootstrap
           ng build --configuration=production
           ng version
-
       - name: Change permissions recursively in source code
         run: chmod -R 777 .
-
-      - name: Zip artifact for deployment
-        run: zip -r release.zip .
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: release.zip
+          path: dist
+
+      #- name: Zip artifact for deployment
+        #run: zip -r release.zip .
+
+      #- name: Upload artifact for deployment job
+        #uses: actions/upload-artifact@v3
+        #with:
+          #name: node-app
+          #path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,8 +60,8 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+      #- name: Unzip artifact for deployment
+        #run: unzip release.zip
         
       - name: Change permissions recursively on deployment
         run: chmod -R 777 . 
@@ -69,5 +74,3 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_804BE8642F274871BB63A5DB00794C24 }}
-          
-      
