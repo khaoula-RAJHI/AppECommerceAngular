@@ -33,20 +33,11 @@ jobs:
       - name: Change permissions recursively in source code
         run: chmod -R 777 .
 
-      #- name: Upload artifact for deployment job
-        #uses: actions/upload-artifact@v3
-        #with:
-          #name: node-app
-          #path: dist
-
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: release.zip
+          path: dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,8 +52,8 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+      #- name: Unzip artifact for deployment
+        #run: unzip release.zip
         
       - name: Change permissions recursively on deployment
         run: chmod -R 777 . 
