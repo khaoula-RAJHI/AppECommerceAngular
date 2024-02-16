@@ -64,7 +64,7 @@ jobs:
           node-version: '18.x'
 
       - name: npm install for deployment
-        run: npm install
+        run: npm install --force
 
       - name: Build Angular app for deployment
         run: ng build --configuration=production
