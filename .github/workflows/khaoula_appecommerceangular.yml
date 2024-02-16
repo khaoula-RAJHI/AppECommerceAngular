@@ -18,9 +18,11 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
       - name: npm install and cache
         run: |
-          npm install -g @angular/cli
           npm cache clean --force
           npm install --force
           npm list bootstrap
@@ -62,10 +64,10 @@ jobs:
           node-version: '18.x'
 
       - name: npm install for deployment
-        run: npm install --force
+        run: npm install
 
       - name: Build Angular app for deployment
-        run: npm run build
+        run: ng build --configuration=production
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
