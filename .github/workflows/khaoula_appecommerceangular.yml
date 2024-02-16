@@ -21,14 +21,10 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
-      - name: Set up Angular CLI path
-        run: echo "::add-path::$(npm config get prefix)/bin"
-
       - name: npm install and cache
         run: |
           npm cache clean --force
           npm install --force
-          npm list bootstrap
 
       - name: Change permissions recursively in source code
         run: chmod -R 777 .
@@ -65,6 +61,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: npm cache
+        run: npm cache clean --force
 
       - name: npm install for deployment
         run: npm install --force
