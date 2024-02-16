@@ -1,4 +1,4 @@
-name: Deploy to Azure Web App - AppEcommerceAngular
+name: Build and deploy Node.js app to Azure Web App - AppEcommerceAngular
 
 on:
   push:
@@ -7,41 +7,70 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: 'Production'
-      url: ${{ secrets.AZUREAPPSERVICE_URL }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
+      - name: npm install and cache
+        run: |
+          npm install -g @angular/cli
+          npm cache clean --force
+          npm install --force
+          npm list bootstrap
 
-      - name: Clean npm cache
-        run: npm cache clean --force
+      - name: Change permissions recursively in source code
+        run: chmod -R 777 .
 
-      - name: Deploy to Azure Web App
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+        
+      - name: Change permissions recursively on deployment
+        run: chmod -R 777 .
+
+      - name: Set up Node.js version for deployment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: npm install for deployment
+        run: npm install
+
+      - name: Build Angular app for deployment
+        run: ng build --configuration=production
+
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'AppEcommerceAngular'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-
-      - name: SSH into Azure Web App and execute commands
-        uses: azure/ssh-action@v2
-        with:
-          ssh-endpoint: ${{ secrets.AZURE_SSH_ENDPOINT }}
-          script-type: bash
-          inline-script: |
-            # Commandes à exécuter sur l'App Service après le déploiement
-            cd /home/site/wwwroot/AppEcommerceAngular
-            npm install
-            npm run build
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_804BE8642F274871BB63A5DB00794C24 }}
+          package: .
