@@ -21,6 +21,9 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
+      - name: Set up Angular CLI path
+        run: echo "::add-path::$(npm config get prefix)/bin"
+
       - name: npm install and cache
         run: |
           npm cache clean --force
