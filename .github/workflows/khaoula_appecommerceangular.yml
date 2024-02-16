@@ -25,6 +25,7 @@ jobs:
         run: |
           npm cache clean --force
           npm install --force
+          ng build --configuration=production
 
       - name: Change permissions recursively in source code
         run: chmod -R 777 .
