@@ -59,8 +59,8 @@ jobs:
 
       - name: Push ACR
         run: |
-         docker tag angularproject ecommerceapp.azurecr.io/angularproject:latest
-         docker push ecommerceapp.azurecr.io/angularproject:latest
+         docker tag angularproject registrapp.azurecr.io/angularproject:latest
+         docker push registrapp.azurecr.io/angularproject:latest
 
   deploy:
     runs-on: ubuntu-latest
