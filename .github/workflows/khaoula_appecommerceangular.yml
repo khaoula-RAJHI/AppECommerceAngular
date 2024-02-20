@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - AppEcommerceAngular
 
 on:
@@ -21,32 +18,49 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: npm install and cache
         run: |
-          npm install -g @angular/cli
           npm cache clean --force
           npm install --force
-          npm list bootstrap
-          ng build --configuration=production
-          ng version
-          
+
       - name: Change permissions recursively in source code
         run: chmod -R 777 .
-
-      #- name: Upload artifact for deployment job
-        #uses: actions/upload-artifact@v3
-        #with:
-          #name: node-app
-          #path: dist
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: node-app
           path: release.zip
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: khaoularajhi
+          password: ${{ secrets.AZUREAPPSERVICE_DOCKER }}
+    
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registrapp.azurecr.io
+          username: RegistrApp
+          password: ${{ secrets.AZUREAPPSERVICE_CONTAINER_REGISTRY }}
+
+      - name: Build and push Docker
+        run: |
+         docker build --tag=angularproject:latest .
+         docker tag angularproject khaoularajhi/angularproject
+         docker push khaoularajhi/angularproject
+
+      - name: Push ACR
+        run: |
+         docker tag angularproject registrapp.azurecr.io/angularproject:latest
+         docker push registrapp.azurecr.io/angularproject:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,10 +68,10 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: node-app
 
@@ -65,10 +79,26 @@ jobs:
         run: unzip release.zip
         
       - name: Change permissions recursively on deployment
-        run: chmod -R 777 . 
-        
+        run: chmod -R 777 .
+
+      - name: Set up Node.js version for deployment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: npm cache
+        run: npm cache clean --force
+
+      - name: npm install for deployment
+        run: npm install --force
+
+      - name: Build Angular app for deployment
+        run: ng build --configuration=production
+
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'AppEcommerceAngular'
